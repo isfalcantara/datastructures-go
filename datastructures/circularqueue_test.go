@@ -233,5 +233,4 @@ func Test_CircularQueueIsEmpty(t *testing.T) {
 
 		assert.False(t, queue.IsEmpty())
 	})
-
 }

@@ -80,7 +80,15 @@ func (q *CircularQueue[T]) clear() {
 }
 
 func (q *CircularQueue[T]) resize() {
-	newData := make([]T, q.cap()*2)
+	var newCap int
+
+	if q.cap > 1024 {
+		newCap = (q.cap() * 125) / 100
+	} else {
+		newCap = q.cap() * 2
+	}
+
+	newData := make([]T, newCap)
 
 	i := q.first
 	j := 0

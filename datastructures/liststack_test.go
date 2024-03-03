@@ -57,7 +57,6 @@ func Test_ListStackPop(t *testing.T) {
 			assert.Equal(t, 1, stack.length)
 			assert.Equal(t, 1, stack.top.value)
 		}
-
 	})
 
 	t.Run("pop the last value of a stack", func(t *testing.T) {

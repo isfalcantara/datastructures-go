@@ -19,7 +19,7 @@ func (s *StaticStack[T]) Push(value T) {
 	}
 
 	s.data[s.length] = value
-	s.length += 1
+	s.length++
 }
 
 func (s *StaticStack[T]) Pop() (popped T, err error) {
@@ -27,9 +27,8 @@ func (s *StaticStack[T]) Pop() (popped T, err error) {
 		return popped, errors.New("stack is empty")
 	}
 
-	popped = s.data[s.length-1]
-	s.length -= 1
-	return popped, nil
+	s.length--
+	return s.data[s.length], nil
 }
 
 func (s StaticStack[T]) Peek() (value T, err error) {
@@ -49,7 +48,15 @@ func (s StaticStack[T]) IsEmpty() bool {
 }
 
 func (s *StaticStack[T]) resize() {
-	newData := make([]T, len(s.data)*2)
+	var newCap int
+
+	if len(s.data) > 1024 {
+		newCap = (len(s.data) * 125) / 100
+	} else {
+		newCap = len(s.data) * 2
+	}
+
+	newData := make([]T, newCap)
 	copy(newData, s.data)
 	s.data = newData
 }

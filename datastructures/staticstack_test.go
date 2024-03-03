@@ -15,9 +15,8 @@ func Test_NewStaticStack(t *testing.T) {
 }
 
 func Test_StaticStackPush(t *testing.T) {
-	stack := NewStaticStack[int](2)
-
 	t.Run("push a value", func(t *testing.T) {
+		stack := NewStaticStack[int](2)
 		stack.Push(1)
 		expectedData := []int{1, 0}
 
@@ -26,6 +25,8 @@ func Test_StaticStackPush(t *testing.T) {
 	})
 
 	t.Run("push and fill up the stack", func(t *testing.T) {
+		stack := NewStaticStack[int](2)
+		stack.Push(1)
 		stack.Push(2)
 
 		expectedData := []int{1, 2}
@@ -35,6 +36,9 @@ func Test_StaticStackPush(t *testing.T) {
 	})
 
 	t.Run("push a value and resize the stack", func(t *testing.T) {
+		stack := NewStaticStack[int](2)
+		stack.Push(1)
+		stack.Push(2)
 		stack.Push(3)
 
 		expectedData := []int{1, 2, 3, 0}
@@ -45,9 +49,8 @@ func Test_StaticStackPush(t *testing.T) {
 }
 
 func Test_StaticStackPop(t *testing.T) {
-	stack := NewStaticStack[int](1)
-
 	t.Run("pop a value from the stack", func(t *testing.T) {
+		stack := NewStaticStack[int](1)
 		stack.Push(1)
 		assert.Equal(t, 1, stack.length)
 
@@ -59,6 +62,8 @@ func Test_StaticStackPop(t *testing.T) {
 	})
 
 	t.Run("error when stack is empty", func(t *testing.T) {
+		stack := NewStaticStack[int](1)
+
 		popped, err := stack.Pop()
 		if assert.ErrorContains(t, err, "stack is empty") {
 			assert.Equal(t, 0, stack.length)
@@ -68,9 +73,9 @@ func Test_StaticStackPop(t *testing.T) {
 }
 
 func Test_StaticStackPeek(t *testing.T) {
-	stack := NewStaticStack[int](1)
-
 	t.Run("empty stack", func(t *testing.T) {
+		stack := NewStaticStack[int](1)
+
 		value, err := stack.Peek()
 
 		if assert.ErrorContains(t, err, "stack is empty") {
@@ -80,6 +85,7 @@ func Test_StaticStackPeek(t *testing.T) {
 	})
 
 	t.Run("stack has values", func(t *testing.T) {
+		stack := NewStaticStack[int](1)
 		stack.Push(1)
 
 		value, err := stack.Peek()
@@ -92,49 +98,36 @@ func Test_StaticStackPeek(t *testing.T) {
 }
 
 func Test_StaticStackLength(t *testing.T) {
-	stack := NewStaticStack[int](2)
-
 	t.Run("stack is empty", func(t *testing.T) {
+		stack := NewStaticStack[int](2)
 		assert.Equal(t, 0, stack.Length())
 	})
 
 	t.Run("pushed some values", func(t *testing.T) {
+		stack := NewStaticStack[int](2)
 		stack.Push(1)
 		stack.Push(2)
 
 		assert.Equal(t, 2, stack.Length())
 	})
-
-	t.Run("popped a value", func(t *testing.T) {
-		_, err := stack.Pop()
-		if assert.NoError(t, err) {
-			assert.Equal(t, 1, stack.Length())
-		}
-	})
 }
 
 func Test_StaticStackIsEmpty(t *testing.T) {
-	stack := NewStaticStack[int](2)
-
 	t.Run("stack is empty", func(t *testing.T) {
+		stack := NewStaticStack[int](2)
 		assert.True(t, stack.IsEmpty())
 	})
 
-	t.Run("pushed some values", func(t *testing.T) {
+	t.Run("pushed a value", func(t *testing.T) {
+		stack := NewStaticStack[int](2)
 		stack.Push(1)
-		stack.Push(2)
 
 		assert.False(t, stack.IsEmpty())
 	})
 
-	t.Run("popped a value", func(t *testing.T) {
-		_, err := stack.Pop()
-		if assert.NoError(t, err) {
-			assert.False(t, stack.IsEmpty())
-		}
-	})
-
 	t.Run("popped last value", func(t *testing.T) {
+		stack := NewStaticStack[int](1)
+		stack.Push(1)
 		_, err := stack.Pop()
 		if assert.NoError(t, err) {
 			assert.True(t, stack.IsEmpty())

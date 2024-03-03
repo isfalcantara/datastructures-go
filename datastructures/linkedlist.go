@@ -94,7 +94,7 @@ func (l LinkedList[T]) At(index int) (value T, err error) {
 func (l *LinkedList[T]) Insert(value T, index int) {
 	newNode := node[T]{value: value}
 	index = mod(index, l.length)
-	
+
 	if l.IsEmpty() {
 		l.first = &newNode
 		l.last = &newNode
